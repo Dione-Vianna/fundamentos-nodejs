@@ -1,14 +1,6 @@
 
 import http from 'node:http';
 
-// rota para criar um usuário
-
-// criar um usuário
-// atualizar um usuário
-// deletar um usuário
-// buscar um usuário
-// buscar vários usuários
-
 // - HTTP METHODS
 // GET => Buscar uma informação do back-end
 // POST => Criar uma informação no back-end
@@ -20,14 +12,29 @@ import http from 'node:http';
 // GET /users => Buscando usuário do back-end
 // POST /users => Criar um usuário do back-end
 
+// Stateful - Stateless
+
+// - Stateful guarda em memoria
+// - Stateless guarda em um banco de dados
+
+// Cabeçalhos (Requisição/resposta) => Metadados
+
+const users = []
+
 const server = http.createServer((request, response) => {
   const {method, url} = request
 
   if (method === "GET" && url === "/users") {
-    return response.end('Listagem de usuário')
+    return response
+    .setHeader('Content-type', 'application/json')
+    .end(JSON.stringify(users)) // JSON - javaScript Object Notation
   }
 
   if(method === "POST" && url === "/users") {
+    users.push({
+      id: 1, name: "John Doe",
+      email: 'johndoe@example.com'
+    })
     return response.end("Criação de usuário")
   }
 
