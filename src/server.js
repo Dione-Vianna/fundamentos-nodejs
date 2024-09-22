@@ -1,6 +1,7 @@
 
 import http from 'node:http';
 import { json } from './middlewares/json.js';
+import { Database } from './database.js';
 
 // - HTTP METHODS
 // GET => Buscar uma informação do back-end
@@ -22,7 +23,7 @@ import { json } from './middlewares/json.js';
 
 // HTTP - Status code
 
-const users = []
+const database = new Database
 
 const server = http.createServer(async (request, response) => {
   const {method, url} = request
@@ -30,18 +31,22 @@ const server = http.createServer(async (request, response) => {
   await json(request, response)
 
   if (method === "GET" && url === "/users") {
+    const users = database.select('users')
 
-    return response
-    .end(JSON.stringify(users)) // JSON - javaScript Object Notation
+    return response.end(JSON.stringify(users)) // JSON - javaScript Object Notation
   }
 
   if(method === "POST" && url === "/users") {
     const {id, name, email} = request.body
-    users.push({
-      id, 
+    
+    const user = {
+      id,
       name,
       email
-    })
+    }
+
+    database.insert('users', user)
+
     return response.writeHead(201).end()
   }
 
