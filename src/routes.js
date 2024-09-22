@@ -1,12 +1,13 @@
 import { Database } from './database.js';
 import { randomUUID } from 'node:crypto';
+import { buildRouterPath } from './utils/build-route-path.js';
 
 const database = new Database()
 
 export const routes = [
   {
     method: 'GET',
-    path: '/users',
+    path: buildRouterPath('/users'),
     handle: (request, response) => {
       const users = database.select('users')
       return response.end(JSON.stringify(users)) // JSON - javaScript Object Notation
@@ -14,7 +15,7 @@ export const routes = [
   },
   {
     method: 'POST',
-    path: '/users',
+    path: buildRouterPath('/users'),
     handle: (request, response) => {
       const {name, email} = request.body
     
@@ -29,5 +30,12 @@ export const routes = [
     return response.writeHead(201).end()
 
     }
-  }
+  },
+  {
+    method: 'DELETE',
+    path: buildRouterPath('/users/:id'),
+    handle: (request, response) => {
+    
+    }
+  },
 ]

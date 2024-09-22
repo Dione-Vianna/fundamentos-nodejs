@@ -24,6 +24,17 @@ import { routes } from './routes.js';
 
 // HTTP - Status code
 
+// Query Parameters: URL Stateful => Filtros, paginação, não-obrigatorios
+// Route Parameters: Identificação de recurso 
+// Request Body: Envio de informações de um formulário
+
+// http://localhost:3000/users?userId=1&name=John
+
+// GET http://localhost:3000/users/1
+// DELETE http://localhost:3000/users/1
+
+// POST http://localhost:3000/users  <- body
+
 
 const server = http.createServer(async (request, response) => {
   const {method, url} = request
