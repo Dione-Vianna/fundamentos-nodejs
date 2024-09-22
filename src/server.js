@@ -2,6 +2,7 @@
 import http from 'node:http';
 import { json } from './middlewares/json.js';
 import { Database } from './database.js';
+import { randomUUID } from 'node:crypto';
 
 // - HTTP METHODS
 // GET => Buscar uma informação do back-end
@@ -37,10 +38,10 @@ const server = http.createServer(async (request, response) => {
   }
 
   if(method === "POST" && url === "/users") {
-    const {id, name, email} = request.body
+    const {name, email} = request.body
     
     const user = {
-      id,
+      id: randomUUID(),
       name,
       email
     }
